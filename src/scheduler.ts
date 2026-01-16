@@ -1,10 +1,11 @@
-import type { Metric } from "./types";
+import type { Metric, MetricBatch, ResourceAttributes } from "./types";
 
 export type CollectorFn = () => Promise<Metric[]>;
-export type ExporterFn = (metrics: Metric[]) => Promise<void>;
+export type ExporterFn = (batch: MetricBatch) => Promise<void>;
 
 export interface SchedulerOptions {
   intervalSeconds: number;
+  resource: ResourceAttributes;
   collect: CollectorFn;
   export: ExporterFn;
 }
@@ -15,7 +16,7 @@ export interface Scheduler {
 }
 
 export function createScheduler(options: SchedulerOptions): Scheduler {
-  const { intervalSeconds, collect, export: exportFn } = options;
+  const { intervalSeconds, resource, collect, export: exportFn } = options;
 
   if (intervalSeconds <= 0) {
     throw new Error("intervalSeconds must be positive");
@@ -35,7 +36,7 @@ export function createScheduler(options: SchedulerOptions): Scheduler {
     try {
       const metrics = await collect();
       if (metrics.length > 0) {
-        await exportFn(metrics);
+        await exportFn({ resource, metrics });
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
