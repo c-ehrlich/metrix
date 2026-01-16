@@ -12,6 +12,7 @@ import { uptimeCollector } from "./uptime";
 import { thermalCollector } from "./thermal";
 import { wifiCollector } from "./wifi";
 import { bluetoothCollector } from "./bluetooth";
+import { displayCollector } from "./display";
 
 export interface Collector {
   name: keyof MetricsToggle;
@@ -31,6 +32,7 @@ const collectors: Collector[] = [
   thermalCollector,
   wifiCollector,
   bluetoothCollector,
+  displayCollector,
 ];
 
 export function registerCollector(collector: Collector): void {

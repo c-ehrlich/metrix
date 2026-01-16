@@ -71,7 +71,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Create `src/collectors/bluetooth.ts`. Use `system_profiler SPBluetoothDataType` to count connected devices. Return `system.bluetooth.connected_devices`.
 
 ### 2.14 Display Brightness Collector
-- [ ] Create `src/collectors/display.ts`. Use `brightness` CLI or IOKit approach. Return `system.display.brightness` with `display` attribute.
+- [x] Create `src/collectors/display.ts`. Use `brightness` CLI or IOKit approach. Return `system.display.brightness` with `display` attribute.
 
 ### 2.15 Fan Speed Collector
 - [ ] Create `src/collectors/fan.ts`. Use `powermetrics` or third-party tool if available. Return `system.fan.speed` with `fan` attribute. May return empty on Apple Silicon.
