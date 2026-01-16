@@ -29,7 +29,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 ## Phase 2: Collectors (one ticket each)
 
 ### 2.1 Collector Interface
-- [ ] Create `src/collectors/index.ts` with a `Collector` interface and a `collectAll()` function that aggregates results from enabled collectors.
+- [x] Create `src/collectors/index.ts` with a `Collector` interface and a `collectAll()` function that aggregates results from enabled collectors.
 
 ### 2.2 CPU Collector
 - [ ] Create `src/collectors/cpu.ts`. Use `Bun.spawn` with `top -l 1` or similar to get CPU utilization. Return `system.cpu.utilization` gauge.
