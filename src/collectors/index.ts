@@ -8,6 +8,7 @@ import { loadCollector } from "./load";
 import { swapCollector } from "./swap";
 import { batteryCollector } from "./battery";
 import { diskIoCollector } from "./disk-io";
+import { uptimeCollector } from "./uptime";
 
 export interface Collector {
   name: keyof MetricsToggle;
@@ -23,6 +24,7 @@ const collectors: Collector[] = [
   swapCollector,
   batteryCollector,
   diskIoCollector,
+  uptimeCollector,
 ];
 
 export function registerCollector(collector: Collector): void {
