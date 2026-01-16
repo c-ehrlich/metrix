@@ -4,11 +4,11 @@ A lightweight daemon that collects system metrics from macOS and exports them vi
 
 ## Goals
 
-- Minimal resource footprint
-- Easy installation on any Mac
-- Proper macOS service integration via launchd
-- Configurable metrics collection and export
-- Guides the user to setup config via interactive assistant
+- [ ] Minimal resource footprint
+- [ ] Easy installation on any Mac
+- [ ] Proper macOS service integration via launchd
+- [ ] Configurable metrics collection and export
+- [ ] Guides the user to setup config via interactive assistant
 
 ## Tech Stack
 
