@@ -22,7 +22,10 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Create `src/types.ts` with OTLP-compatible metric types: `Metric`, `DataPoint`, `MetricType` (gauge/counter). These will be used by collectors and exporter.
 
 ### 1.5 Scheduler
-- [x] Create `src/scheduler.ts` with a simple interval loop that calls a collector callback and exporter callback. Support graceful shutdown via SIGINT/SIGTERM.
+- [ ] Create `src/scheduler.ts` with a simple interval loop that calls a collector callback and exporter callback. Support graceful shutdown via SIGINT/SIGTERM.
+
+### 1.6 Device / User name
+- [ ] Make sure the device / user name is attached to each metric. Parse them from macos, they do not need to be user configurable for now.
 
 ---
 
@@ -32,7 +35,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Create `src/collectors/index.ts` with a `Collector` interface and a `collectAll()` function that aggregates results from enabled collectors.
 
 ### 2.2 CPU Collector
-- [ ] Create `src/collectors/cpu.ts`. Use `Bun.spawn` with `top -l 1` or similar to get CPU utilization. Return `system.cpu.utilization` gauge.
+- [x] Create `src/collectors/cpu.ts`. Use `Bun.spawn` with `top -l 1` or similar to get CPU utilization. Return `system.cpu.utilization` gauge.
 
 ### 2.3 Memory Collector
 - [ ] Create `src/collectors/memory.ts`. Parse `vm_stat` output. Return `system.memory.usage`, `system.memory.available`, `system.memory.utilization`.
@@ -123,6 +126,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 | 1.3 | CLI Argument Parsing | S |
 | 1.4 | Metric Types | XS |
 | 1.5 | Scheduler | S |
+| 1.6 | Device / User name | S |
 | 2.1 | Collector Interface | XS |
 | 2.2 | CPU Collector | S |
 | 2.3 | Memory Collector | S |
