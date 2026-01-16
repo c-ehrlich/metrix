@@ -44,7 +44,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Create `src/collectors/disk.ts`. Parse `df -k` output. Return `system.disk.usage`, `system.disk.available`, `system.disk.utilization` with `device` attribute.
 
 ### 2.5 Network Collector
-- [ ] Create `src/collectors/network.ts`. Parse `netstat -ib` output. Return `system.network.io` counter with `device` and `direction` attributes.
+- [x] Create `src/collectors/network.ts`. Parse `netstat -ib` output. Return `system.network.io` counter with `device` and `direction` attributes.
 
 ### 2.6 Load Average Collector
 - [ ] Create `src/collectors/load.ts`. Use `os.loadavg()` or parse `uptime`. Return `system.cpu.load_average` with `period` attribute (1m, 5m, 15m).
