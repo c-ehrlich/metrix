@@ -22,7 +22,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Create `src/types.ts` with OTLP-compatible metric types: `Metric`, `DataPoint`, `MetricType` (gauge/counter). These will be used by collectors and exporter.
 
 ### 1.5 Scheduler
-- [ ] Create `src/scheduler.ts` with a simple interval loop that calls a collector callback and exporter callback. Support graceful shutdown via SIGINT/SIGTERM.
+- [x] Create `src/scheduler.ts` with a simple interval loop that calls a collector callback and exporter callback. Support graceful shutdown via SIGINT/SIGTERM.
 
 ---
 
