@@ -5,6 +5,7 @@ import { memoryCollector } from "./memory";
 import { diskCollector } from "./disk";
 import { networkCollector } from "./network";
 import { loadCollector } from "./load";
+import { swapCollector } from "./swap";
 
 export interface Collector {
   name: keyof MetricsToggle;
@@ -17,6 +18,7 @@ const collectors: Collector[] = [
   diskCollector,
   networkCollector,
   loadCollector,
+  swapCollector,
 ];
 
 export function registerCollector(collector: Collector): void {

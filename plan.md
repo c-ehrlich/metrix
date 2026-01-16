@@ -50,7 +50,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Create `src/collectors/load.ts`. Use `os.loadavg()` or parse `uptime`. Return `system.cpu.load_average` with `period` attribute (1m, 5m, 15m).
 
 ### 2.7 Swap Collector
-- [ ] Create `src/collectors/swap.ts`. Parse `sysctl vm.swapusage`. Return `system.swap.usage`, `system.swap.available`, `system.swap.utilization`.
+- [x] Create `src/collectors/swap.ts`. Parse `sysctl vm.swapusage`. Return `system.swap.usage`, `system.swap.available`, `system.swap.utilization`.
 
 ### 2.8 Battery Collector
 - [ ] Create `src/collectors/battery.ts`. Parse `pmset -g batt` output. Return `system.battery.charge`, `system.battery.charging`, `system.battery.cycle_count`.
