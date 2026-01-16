@@ -74,7 +74,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Create `src/collectors/display.ts`. Use `brightness` CLI or IOKit approach. Return `system.display.brightness` with `display` attribute.
 
 ### 2.15 Fan Speed Collector
-- [ ] Create `src/collectors/fan.ts`. Use `powermetrics` or third-party tool if available. Return `system.fan.speed` with `fan` attribute. May return empty on Apple Silicon.
+- [x] Create `src/collectors/fan.ts`. Use `powermetrics` or third-party tool if available. Return `system.fan.speed` with `fan` attribute. May return empty on Apple Silicon.
 
 ---
 

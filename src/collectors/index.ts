@@ -13,6 +13,7 @@ import { thermalCollector } from "./thermal";
 import { wifiCollector } from "./wifi";
 import { bluetoothCollector } from "./bluetooth";
 import { displayCollector } from "./display";
+import { fanCollector } from "./fan";
 
 export interface Collector {
   name: keyof MetricsToggle;
@@ -33,6 +34,7 @@ const collectors: Collector[] = [
   wifiCollector,
   bluetoothCollector,
   displayCollector,
+  fanCollector,
 ];
 
 export function registerCollector(collector: Collector): void {
