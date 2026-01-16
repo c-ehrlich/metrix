@@ -2,36 +2,21 @@ import { mkdir } from "fs/promises";
 import { dirname } from "path";
 import { defaultConfig, getConfigPath, type MetrixConfig } from "../config";
 
-const NEWLINE = 10;
+import * as readline from "readline";
 
 async function prompt(question: string, defaultValue?: string): Promise<string> {
   const suffix = defaultValue ? ` (${defaultValue})` : "";
-  process.stdout.write(`${question}${suffix}: `);
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
 
-  const reader = Bun.stdin.stream().getReader();
-  const chunks: Uint8Array[] = [];
-
-  try {
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-
-      for (let i = 0; i < value.length; i++) {
-        if (value[i] === NEWLINE) {
-          const decoder = new TextDecoder();
-          const input = decoder.decode(Buffer.concat(chunks)).trim();
-          return input || defaultValue || "";
-        }
-        chunks.push(value.slice(i, i + 1));
-      }
-    }
-
-    const decoder = new TextDecoder();
-    const input = decoder.decode(Buffer.concat(chunks)).trim();
-    return input || defaultValue || "";
-  } finally {
-    reader.releaseLock();
-  }
+  return new Promise((resolve) => {
+    rl.question(`${question}${suffix}: `, (answer) => {
+      rl.close();
+      resolve(answer.trim() || defaultValue || "");
+    });
+  });
 }
 
 function parseInterval(input: string): number | null {

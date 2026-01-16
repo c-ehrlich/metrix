@@ -19,6 +19,7 @@ fi
 
 # Install binary
 echo "Installing binary to $INSTALL_DIR/$BINARY_NAME..."
+sudo mkdir -p "$INSTALL_DIR"
 sudo cp "$PROJECT_ROOT/dist/$BINARY_NAME" "$INSTALL_DIR/$BINARY_NAME"
 sudo chmod +x "$INSTALL_DIR/$BINARY_NAME"
 
