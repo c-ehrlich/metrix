@@ -65,7 +65,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Create `src/collectors/thermal.ts`. Use `pmset -g therm` for thermal state. Return `system.thermal.state` gauge.
 
 ### 2.12 Wi-Fi Collector
-- [ ] Create `src/collectors/wifi.ts`. Parse `/System/Library/PrivateFrameworks/Apple80211.framework/.../airport -I`. Return `system.wifi.signal_strength` with `ssid` and `interface` attributes.
+- [x] Create `src/collectors/wifi.ts`. Parse `/System/Library/PrivateFrameworks/Apple80211.framework/.../airport -I`. Return `system.wifi.signal_strength` with `ssid` and `interface` attributes.
 
 ### 2.13 Bluetooth Collector
 - [ ] Create `src/collectors/bluetooth.ts`. Use `system_profiler SPBluetoothDataType` to count connected devices. Return `system.bluetooth.connected_devices`.
