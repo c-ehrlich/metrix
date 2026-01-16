@@ -24,21 +24,23 @@ function buildCurlCommand(
   return `curl -X POST '${endpoint}' \\\n  ${headerArgs} \\\n  -d '${body.replace(/'/g, "'\\''")}'`;
 }
 
-function dumpCurlOnError(
+function dumpCurl(
   endpoint: string,
   headers: Record<string, string>,
   payload: unknown,
+  filename: string,
 ): void {
   const curlCmd = buildCurlCommand(endpoint, headers, payload);
-  const errorFile = join(homedir(), "metrix-error.txt");
-  writeFileSync(errorFile, curlCmd, "utf-8");
-  console.error(`Curl command written to: ${errorFile}`);
+  const filePath = join(homedir(), filename);
+  writeFileSync(filePath, curlCmd, "utf-8");
+  console.error(`Curl command written to: ${filePath}`);
 }
 
 export async function exportMetrics(
   batch: MetricBatch,
   config: OtlpConfig,
   dryRun: boolean = false,
+  debug: boolean = false,
 ): Promise<ExportResult> {
   const payload = buildOtlpPayload(batch);
   const isProtobuf = config.format === "protobuf";
@@ -60,12 +62,18 @@ export async function exportMetrics(
       body,
     });
 
+    if (debug) {
+      dumpCurl(config.endpoint, config.headers, payload, "metrix.txt");
+    }
+
     if (response.ok) {
       return { success: true, statusCode: response.status };
     }
 
     const errorText = await response.text().catch(() => "");
-    dumpCurlOnError(config.endpoint, config.headers, payload);
+    if (!debug) {
+      dumpCurl(config.endpoint, config.headers, payload, "metrix-error.txt");
+    }
     return {
       success: false,
       statusCode: response.status,
@@ -73,7 +81,11 @@ export async function exportMetrics(
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    dumpCurlOnError(config.endpoint, config.headers, payload);
+    if (debug) {
+      dumpCurl(config.endpoint, config.headers, payload, "metrix.txt");
+    } else {
+      dumpCurl(config.endpoint, config.headers, payload, "metrix-error.txt");
+    }
     return { success: false, error: message };
   }
 }

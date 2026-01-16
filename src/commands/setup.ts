@@ -67,7 +67,7 @@ export async function setupCommand(): Promise<void> {
   }
 
   console.log("\nEnter headers as comma-separated key=value pairs.");
-  console.log("Example: Authorization=Bearer token123, X-Axiom-Dataset=metrics");
+  console.log("Example: Authorization=Bearer token123, X-Axiom-Metrics-Dataset=metrics");
   const headersInput = await prompt("Headers", "");
   const headers = parseHeaders(headersInput);
 
@@ -81,12 +81,18 @@ export async function setupCommand(): Promise<void> {
     process.exit(1);
   }
 
+  const formatInput = await prompt("\nExport format (json or protobuf)", "protobuf");
+  const format = formatInput === "json" ? "json" : "protobuf";
+  if (formatInput && formatInput !== "json" && formatInput !== "protobuf") {
+    console.error("Invalid format. Using 'protobuf' as default.");
+  }
+
   const config: MetrixConfig = {
     interval,
     otlp: {
       endpoint,
       headers,
-      format: "json",
+      format,
     },
     metrics: { ...defaultConfig.metrics },
   };

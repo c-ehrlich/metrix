@@ -21,6 +21,7 @@ Options:
   -H, --header <key=value>  Add header (can be repeated)
   -c, --config <path>       Path to config file
   -d, --dry-run             Print metrics to stdout instead of exporting
+  --debug                   Save last request to ~/metrix.txt
   -h, --help                Show this help message
 `;
 
@@ -30,6 +31,7 @@ interface ParsedArgs {
   headers: Record<string, string>;
   configPath?: string;
   dryRun: boolean;
+  debug: boolean;
 }
 
 const cliOptions = {
@@ -38,6 +40,7 @@ const cliOptions = {
   header: { type: "string" as const, multiple: true as const, short: "H" as const },
   config: { type: "string" as const, short: "c" as const },
   "dry-run": { type: "boolean" as const, short: "d" as const },
+  debug: { type: "boolean" as const },
   help: { type: "boolean" as const, short: "h" as const },
 };
 
@@ -101,6 +104,7 @@ function parseCliArgs(): ParsedArgs {
     headers,
     configPath: values.config,
     dryRun: values["dry-run"] ?? false,
+    debug: values.debug ?? false,
   };
 }
 
@@ -119,20 +123,24 @@ function mergeConfig(fileConfig: MetrixConfig, cliArgs: ParsedArgs): MetrixConfi
 export interface RuntimeConfig {
   config: MetrixConfig;
   dryRun: boolean;
+  debug: boolean;
 }
 
 export async function initConfig(): Promise<RuntimeConfig> {
   const cliArgs = parseCliArgs();
   const fileConfig = await loadConfig(cliArgs.configPath);
   const config = mergeConfig(fileConfig, cliArgs);
-  return { config, dryRun: cliArgs.dryRun };
+  return { config, dryRun: cliArgs.dryRun, debug: cliArgs.debug };
 }
 
 async function main(): Promise<void> {
-  const { config, dryRun } = await initConfig();
+  const { config, dryRun, debug } = await initConfig();
 
   if (dryRun) {
     console.log("Dry-run mode enabled");
+  }
+  if (debug) {
+    console.log("Debug mode enabled");
   }
   console.log(`Metrix starting with interval: ${config.interval}s`);
 
@@ -144,7 +152,7 @@ async function main(): Promise<void> {
     resource,
     collect: () => collectAll(config.metrics),
     export: async (batch) => {
-      const result = await exportMetrics(batch, config.otlp, dryRun);
+      const result = await exportMetrics(batch, config.otlp, dryRun, debug);
       if (!result.success) {
         console.error(`Export failed: ${result.error}`);
       }
