@@ -1,0 +1,16 @@
+{
+  "name": "metrix",
+  "version": "0.1.0",
+  "description": "A lightweight macOS system metrics daemon with OTLP export",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "build": "bun build src/index.ts --compile --outfile dist/metrix",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.6",
+    "typescript": "^5.9.3"
+  }
+}
