@@ -84,7 +84,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Create `src/otlp.ts`. Build OTLP/HTTP JSON payload from `Metric[]`. Follow OTLP JSON schema with resourceMetrics, scopeMetrics, metrics.
 
 ### 3.2 Exporter
-- [ ] Create `src/exporter.ts`. Implement `exportMetrics(metrics: Metric[], config: OtlpConfig)` using `fetch()`. Handle errors gracefully. Support dry-run mode (log to stdout).
+- [x] Create `src/exporter.ts`. Implement `exportMetrics(metrics: Metric[], config: OtlpConfig)` using `fetch()`. Handle errors gracefully. Support dry-run mode (log to stdout).
 
 ### 3.3 Wire Up Main Loop
 - [ ] Update `src/index.ts` to: load config, start scheduler, collect metrics, export via OTLP. Add `--dry-run` support to print instead of export.
