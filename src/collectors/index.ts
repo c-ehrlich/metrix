@@ -4,13 +4,20 @@ import { cpuCollector } from "./cpu";
 import { memoryCollector } from "./memory";
 import { diskCollector } from "./disk";
 import { networkCollector } from "./network";
+import { loadCollector } from "./load";
 
 export interface Collector {
   name: keyof MetricsToggle;
   collect(): Promise<Metric[]>;
 }
 
-const collectors: Collector[] = [cpuCollector, memoryCollector, diskCollector, networkCollector];
+const collectors: Collector[] = [
+  cpuCollector,
+  memoryCollector,
+  diskCollector,
+  networkCollector,
+  loadCollector,
+];
 
 export function registerCollector(collector: Collector): void {
   collectors.push(collector);
