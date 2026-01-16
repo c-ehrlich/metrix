@@ -104,16 +104,16 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 ## Phase 5: Distribution
 
 ### 5.1 Launchd Plist
-- [ ] Create `launchd/co.metrix.agent.plist` with correct paths. Use `$HOME` expansion for log path.
+- [x] Create `launchd/co.metrix.agent.plist` with correct paths. Use `$HOME` expansion for log path.
 
 ### 5.2 Install Script
-- [ ] Create `scripts/install.sh` that builds binary, copies to `/usr/local/bin`, installs plist, and loads service.
+- [x] Create `scripts/install.sh` that builds binary, copies to `/usr/local/bin`, installs plist, and loads service.
 
 ### 5.3 Uninstall Script
-- [ ] Create `scripts/uninstall.sh` that unloads service, removes plist, and removes binary.
+- [x] Create `scripts/uninstall.sh` that unloads service, removes plist, and removes binary.
 
 ### 5.4 README
-- [ ] Update `README.md` with installation instructions, configuration examples, and usage documentation.
+- [x] Update `README.md` with installation instructions, configuration examples, and usage documentation.
 
 ---
 
