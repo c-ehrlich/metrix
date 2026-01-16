@@ -15,8 +15,9 @@ function buildCurlCommand(
   endpoint: string,
   headers: Record<string, string>,
   payload: unknown,
+  contentType: string,
 ): string {
-  const allHeaders = { "Content-Type": "application/json", ...headers };
+  const allHeaders = { "Content-Type": contentType, ...headers };
   const headerArgs = Object.entries(allHeaders)
     .map(([k, v]) => `-H '${k}: ${v}'`)
     .join(" \\\n  ");
@@ -29,8 +30,9 @@ function dumpCurl(
   headers: Record<string, string>,
   payload: unknown,
   filename: string,
+  contentType: string,
 ): void {
-  const curlCmd = buildCurlCommand(endpoint, headers, payload);
+  const curlCmd = buildCurlCommand(endpoint, headers, payload, contentType);
   const filePath = join(homedir(), filename);
   writeFileSync(filePath, curlCmd, "utf-8");
   console.error(`Curl command written to: ${filePath}`);
@@ -63,7 +65,7 @@ export async function exportMetrics(
     });
 
     if (debug) {
-      dumpCurl(config.endpoint, config.headers, payload, "metrix.txt");
+      dumpCurl(config.endpoint, config.headers, payload, "metrix.txt", contentType);
     }
 
     if (response.ok) {
@@ -72,7 +74,7 @@ export async function exportMetrics(
 
     const errorText = await response.text().catch(() => "");
     if (!debug) {
-      dumpCurl(config.endpoint, config.headers, payload, "metrix-error.txt");
+      dumpCurl(config.endpoint, config.headers, payload, "metrix-error.txt", contentType);
     }
     return {
       success: false,
@@ -82,9 +84,9 @@ export async function exportMetrics(
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     if (debug) {
-      dumpCurl(config.endpoint, config.headers, payload, "metrix.txt");
+      dumpCurl(config.endpoint, config.headers, payload, "metrix.txt", contentType);
     } else {
-      dumpCurl(config.endpoint, config.headers, payload, "metrix-error.txt");
+      dumpCurl(config.endpoint, config.headers, payload, "metrix-error.txt", contentType);
     }
     return { success: false, error: message };
   }
