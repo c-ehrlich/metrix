@@ -10,34 +10,57 @@ A lightweight macOS system metrics daemon that collects system metrics and expor
 - Configurable metrics collection and export
 - Interactive setup wizard
 
-## Installation
+## Prerequisites
 
-### Quick Install
+- macOS
+- [Bun](https://bun.sh) runtime (`curl -fsSL https://bun.sh/install | bash`)
+
+## Quick Start
 
 ```bash
-# Clone and build
+# 1. Clone and build
 git clone https://github.com/c-ehrlich/metrix.git
 cd metrix
 bun install
 bun run build
 
-# Install binary and start service
+# 2. Configure your OTLP endpoint
+./dist/metrix setup
+
+# 3. Test metrics collection
+./dist/metrix --dry-run
+
+# 4. Install as background service
+./scripts/install.sh
+
+# 5. Verify it's running
+metrix status
+```
+
+## Installation
+
+### Using the Install Script
+
+After building and configuring (steps 1-2 above):
+
+```bash
 ./scripts/install.sh
 ```
+
+This copies the binary to `/usr/local/bin` and sets up a launchd service that runs in the background.
 
 ### Manual Installation
 
 ```bash
-# Build the binary
-bun install
-bun run build
-
 # Copy binary to /usr/local/bin
 sudo cp ./dist/metrix /usr/local/bin/
 
 # Install launchd service
 cp ./launchd/co.metrix.agent.plist ~/Library/LaunchAgents/
 launchctl load ~/Library/LaunchAgents/co.metrix.agent.plist
+
+# Verify
+metrix status
 ```
 
 ### Uninstall
@@ -50,7 +73,7 @@ launchctl load ~/Library/LaunchAgents/co.metrix.agent.plist
 
 ### Interactive Setup
 
-Run the setup wizard to configure your OTLP endpoint:
+Run the setup wizard to configure your OTLP endpoint (do this before installing the service):
 
 ```bash
 metrix setup
