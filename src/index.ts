@@ -2,6 +2,10 @@
 
 import { parseArgs } from "util";
 import { type MetrixConfig, loadConfig } from "./config";
+import { collectAll } from "./collectors";
+import { getDeviceInfo } from "./device";
+import { exportMetrics } from "./exporter";
+import { createScheduler, setupGracefulShutdown } from "./scheduler";
 
 const USAGE = `Usage: metrix [options]
 
@@ -122,10 +126,26 @@ async function main(): Promise<void> {
 
   if (dryRun) {
     console.log("Dry-run mode enabled");
-    console.log("Config:", JSON.stringify(config, null, 2));
-  } else {
-    console.log("Metrix starting with interval:", config.interval, "seconds");
   }
+  console.log(`Metrix starting with interval: ${config.interval}s`);
+
+  const resource = getDeviceInfo();
+  console.log(`Host: ${resource.hostname}, User: ${resource.username}`);
+
+  const scheduler = createScheduler({
+    intervalSeconds: config.interval,
+    resource,
+    collect: () => collectAll(config.metrics),
+    export: async (batch) => {
+      const result = await exportMetrics(batch, config.otlp, dryRun);
+      if (!result.success) {
+        console.error(`Export failed: ${result.error}`);
+      }
+    },
+  });
+
+  setupGracefulShutdown(scheduler);
+  scheduler.start();
 }
 
 main().catch((error: unknown) => {
