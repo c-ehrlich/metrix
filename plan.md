@@ -10,7 +10,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 ## Phase 1: Core Infrastructure
 
 ### 1.1 Config Types
-- [ ] Create `src/config.ts` with TypeScript types for the config schema (MetrixConfig, OtlpConfig, MetricsToggle). Export a default config object. No loading logic yet.
+- [x] Create `src/config.ts` with TypeScript types for the config schema (MetrixConfig, OtlpConfig, MetricsToggle). Export a default config object. No loading logic yet.
 
 ### 1.2 Config Loading
 - [ ] Add config file loading from `~/.config/metrix/config.json`. Handle missing file gracefully (use defaults). Add `loadConfig()` function.
