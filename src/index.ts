@@ -3,11 +3,15 @@
 import { parseArgs } from "util";
 import { type MetrixConfig, loadConfig } from "./config";
 import { collectAll } from "./collectors";
+import { statusCommand } from "./commands/status";
 import { getDeviceInfo } from "./device";
 import { exportMetrics } from "./exporter";
 import { createScheduler, setupGracefulShutdown } from "./scheduler";
 
-const USAGE = `Usage: metrix [options]
+const USAGE = `Usage: metrix [command] [options]
+
+Commands:
+  status    Check if the metrix service is running
 
 Options:
   -i, --interval <seconds>  Collection interval (default: 10)
@@ -148,7 +152,19 @@ async function main(): Promise<void> {
   scheduler.start();
 }
 
-main().catch((error: unknown) => {
+async function run(): Promise<void> {
+  const args = Bun.argv.slice(2);
+  const command = args[0];
+
+  if (command === "status") {
+    await statusCommand();
+    return;
+  }
+
+  await main();
+}
+
+run().catch((error: unknown) => {
   console.error("Fatal error:", error);
   process.exit(1);
 });
