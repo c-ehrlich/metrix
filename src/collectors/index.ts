@@ -11,6 +11,7 @@ import { diskIoCollector } from "./disk-io";
 import { uptimeCollector } from "./uptime";
 import { thermalCollector } from "./thermal";
 import { wifiCollector } from "./wifi";
+import { bluetoothCollector } from "./bluetooth";
 
 export interface Collector {
   name: keyof MetricsToggle;
@@ -29,6 +30,7 @@ const collectors: Collector[] = [
   uptimeCollector,
   thermalCollector,
   wifiCollector,
+  bluetoothCollector,
 ];
 
 export function registerCollector(collector: Collector): void {

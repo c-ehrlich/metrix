@@ -68,7 +68,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Create `src/collectors/wifi.ts`. Parse `/System/Library/PrivateFrameworks/Apple80211.framework/.../airport -I`. Return `system.wifi.signal_strength` with `ssid` and `interface` attributes.
 
 ### 2.13 Bluetooth Collector
-- [ ] Create `src/collectors/bluetooth.ts`. Use `system_profiler SPBluetoothDataType` to count connected devices. Return `system.bluetooth.connected_devices`.
+- [x] Create `src/collectors/bluetooth.ts`. Use `system_profiler SPBluetoothDataType` to count connected devices. Return `system.bluetooth.connected_devices`.
 
 ### 2.14 Display Brightness Collector
 - [ ] Create `src/collectors/display.ts`. Use `brightness` CLI or IOKit approach. Return `system.display.brightness` with `display` attribute.
