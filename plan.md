@@ -56,7 +56,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Create `src/collectors/battery.ts`. Parse `pmset -g batt` output. Return `system.battery.charge`, `system.battery.charging`, `system.battery.cycle_count`.
 
 ### 2.9 Disk I/O Collector
-- [ ] Create `src/collectors/disk-io.ts`. Parse `iostat -d` output. Return `system.disk.io` and `system.disk.operations` with `device` and `direction` attributes.
+- [x] Create `src/collectors/disk-io.ts`. Parse `iostat -d` output. Return `system.disk.io` and `system.disk.operations` with `device` and `direction` attributes.
 
 ### 2.10 Uptime Collector
 - [ ] Create `src/collectors/uptime.ts`. Use `Bun.spawn` with `sysctl kern.boottime`. Return `system.uptime` gauge in seconds.
