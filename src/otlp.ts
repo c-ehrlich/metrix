@@ -1,5 +1,9 @@
 import type { Metric, MetricBatch, DataPoint } from "./types";
 import protobuf from "protobufjs";
+import Long from "long";
+
+protobuf.util.Long = Long;
+protobuf.configure();
 
 interface OtlpAttribute {
   key: string;
@@ -220,8 +224,8 @@ function getProtoRoot(): protobuf.Root {
 
 interface ProtoDataPoint {
   attributes?: Array<{ key: string; value: { stringValue?: string } }>;
-  timeUnixNano: bigint;
-  startTimeUnixNano?: bigint;
+  timeUnixNano: protobuf.util.Long;
+  startTimeUnixNano?: protobuf.util.Long;
   asDouble: number;
 }
 
@@ -239,7 +243,7 @@ function convertPayloadForProtobuf(payload: OtlpPayload): unknown {
       resource: {
         attributes: rm.resource.attributes.map((attr) => ({
           key: attr.key,
-          value: attr.value,
+          value: { stringValue: attr.value.stringValue },
         })),
       },
       scopeMetrics: rm.scopeMetrics.map((sm) => ({
@@ -260,8 +264,10 @@ function convertPayloadForProtobuf(payload: OtlpPayload): unknown {
                       key: a.key,
                       value: { stringValue: a.value.stringValue },
                     })),
-                    timeUnixNano: BigInt(dp.timeUnixNano),
-                    startTimeUnixNano: dp.startTimeUnixNano ? BigInt(dp.startTimeUnixNano) : undefined,
+                    timeUnixNano: Long.fromString(dp.timeUnixNano, true),
+                    startTimeUnixNano: dp.startTimeUnixNano
+                      ? Long.fromString(dp.startTimeUnixNano, true)
+                      : undefined,
                     asDouble: dp.asDouble,
                   }),
                 ),
@@ -278,8 +284,10 @@ function convertPayloadForProtobuf(payload: OtlpPayload): unknown {
                       key: a.key,
                       value: { stringValue: a.value.stringValue },
                     })),
-                    timeUnixNano: BigInt(dp.timeUnixNano),
-                    startTimeUnixNano: dp.startTimeUnixNano ? BigInt(dp.startTimeUnixNano) : undefined,
+                    timeUnixNano: Long.fromString(dp.timeUnixNano, true),
+                    startTimeUnixNano: dp.startTimeUnixNano
+                      ? Long.fromString(dp.startTimeUnixNano, true)
+                      : undefined,
                     asDouble: dp.asDouble,
                   }),
                 ),

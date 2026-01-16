@@ -16,26 +16,40 @@ function buildCurlCommand(
   headers: Record<string, string>,
   payload: unknown,
   contentType: string,
+  binaryFile?: string,
 ): string {
   const allHeaders = { "Content-Type": contentType, ...headers };
   const headerArgs = Object.entries(allHeaders)
     .map(([k, v]) => `-H '${k}: ${v}'`)
     .join(" \\\n  ");
+  if (binaryFile) {
+    return `curl -X POST '${endpoint}' \\\n  ${headerArgs} \\\n  --data-binary '@${binaryFile}'`;
+  }
   const body = JSON.stringify(payload);
   return `curl -X POST '${endpoint}' \\\n  ${headerArgs} \\\n  -d '${body.replace(/'/g, "'\\''")}'`;
 }
 
-function dumpCurl(
+function dumpDebug(
   endpoint: string,
   headers: Record<string, string>,
   payload: unknown,
-  filename: string,
+  baseName: string,
   contentType: string,
+  protobufBody?: Uint8Array,
 ): void {
-  const curlCmd = buildCurlCommand(endpoint, headers, payload, contentType);
-  const filePath = join(homedir(), filename);
-  writeFileSync(filePath, curlCmd, "utf-8");
-  console.error(`Curl command written to: ${filePath}`);
+  const filePath = join(homedir(), `${baseName}.txt`);
+  if (protobufBody) {
+    const binPath = join(homedir(), `${baseName}.bin`);
+    writeFileSync(binPath, protobufBody);
+    const curlCmd = buildCurlCommand(endpoint, headers, payload, contentType, binPath);
+    writeFileSync(filePath, curlCmd, "utf-8");
+    console.error(`Curl command written to: ${filePath}`);
+    console.error(`Protobuf payload written to: ${binPath}`);
+  } else {
+    const curlCmd = buildCurlCommand(endpoint, headers, payload, contentType);
+    writeFileSync(filePath, curlCmd, "utf-8");
+    console.error(`Curl command written to: ${filePath}`);
+  }
 }
 
 export async function exportMetrics(
@@ -47,7 +61,8 @@ export async function exportMetrics(
   const payload = buildOtlpPayload(batch);
   const isProtobuf = config.format === "protobuf";
   const contentType = isProtobuf ? "application/x-protobuf" : "application/json";
-  const body = isProtobuf ? encodeOtlpProtobuf(payload) : JSON.stringify(payload);
+  const protobufBody = isProtobuf ? encodeOtlpProtobuf(payload) : undefined;
+  const body = isProtobuf ? protobufBody : JSON.stringify(payload);
 
   if (dryRun) {
     console.log(JSON.stringify(payload, null, 2));
@@ -65,7 +80,7 @@ export async function exportMetrics(
     });
 
     if (debug) {
-      dumpCurl(config.endpoint, config.headers, payload, "metrix.txt", contentType);
+      dumpDebug(config.endpoint, config.headers, payload, "metrix", contentType, protobufBody);
     }
 
     if (response.ok) {
@@ -74,7 +89,7 @@ export async function exportMetrics(
 
     const errorText = await response.text().catch(() => "");
     if (!debug) {
-      dumpCurl(config.endpoint, config.headers, payload, "metrix-error.txt", contentType);
+      dumpDebug(config.endpoint, config.headers, payload, "metrix-error", contentType, protobufBody);
     }
     return {
       success: false,
@@ -84,9 +99,9 @@ export async function exportMetrics(
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     if (debug) {
-      dumpCurl(config.endpoint, config.headers, payload, "metrix.txt", contentType);
+      dumpDebug(config.endpoint, config.headers, payload, "metrix", contentType, protobufBody);
     } else {
-      dumpCurl(config.endpoint, config.headers, payload, "metrix-error.txt", contentType);
+      dumpDebug(config.endpoint, config.headers, payload, "metrix-error", contentType, protobufBody);
     }
     return { success: false, error: message };
   }
