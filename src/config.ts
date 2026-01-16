@@ -37,7 +37,7 @@ export const defaultConfig: MetrixConfig = {
   otlp: {
     endpoint: "https://api.axiom.co/v1/metrics",
     headers: {},
-    format: "json",
+    format: "protobuf",
   },
   metrics: {
     cpu: true,

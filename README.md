@@ -1,6 +1,6 @@
-# Metrix
+# Enter the metrix
 
-A lightweight macOS system metrics daemon that collects system metrics and exports them via OpenTelemetry Protocol (OTLP) over HTTP.
+A lightweight macOS daemon that exports system metrics via OpenTelemetry (OTLP).
 
 ## Features
 
@@ -139,6 +139,7 @@ Options:
   -H, --header <key=value>  Add header (can be repeated)
   -c, --config <path>       Path to config file
   -d, --dry-run             Print metrics to stdout instead of exporting
+  --debug                   Save last request to ~/metrix.txt
   -h, --help                Show this help message
 ```
 
