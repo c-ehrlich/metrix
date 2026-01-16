@@ -16,7 +16,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Add config file loading from `~/.config/metrix/config.json`. Handle missing file gracefully (use defaults). Add `loadConfig()` function.
 
 ### 1.3 CLI Argument Parsing
-- [ ] Update `src/index.ts` to parse CLI args: `--interval`, `--endpoint`, `--header`, `--config`, `--dry-run`. Merge with loaded config. Use `Bun.argv` or `parseArgs`.
+- [x] Update `src/index.ts` to parse CLI args: `--interval`, `--endpoint`, `--header`, `--config`, `--dry-run`. Merge with loaded config. Use `Bun.argv` or `parseArgs`.
 
 ### 1.4 Metric Types
 - [ ] Create `src/types.ts` with OTLP-compatible metric types: `Metric`, `DataPoint`, `MetricType` (gauge/counter). These will be used by collectors and exporter.
