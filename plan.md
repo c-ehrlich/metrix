@@ -62,7 +62,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Create `src/collectors/uptime.ts`. Use `Bun.spawn` with `sysctl kern.boottime`. Return `system.uptime` gauge in seconds.
 
 ### 2.11 Thermal Collector
-- [ ] Create `src/collectors/thermal.ts`. Use `pmset -g therm` for thermal state. Return `system.thermal.state` gauge.
+- [x] Create `src/collectors/thermal.ts`. Use `pmset -g therm` for thermal state. Return `system.thermal.state` gauge.
 
 ### 2.12 Wi-Fi Collector
 - [ ] Create `src/collectors/wifi.ts`. Parse `/System/Library/PrivateFrameworks/Apple80211.framework/.../airport -I`. Return `system.wifi.signal_strength` with `ssid` and `interface` attributes.

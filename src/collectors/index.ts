@@ -9,6 +9,7 @@ import { swapCollector } from "./swap";
 import { batteryCollector } from "./battery";
 import { diskIoCollector } from "./disk-io";
 import { uptimeCollector } from "./uptime";
+import { thermalCollector } from "./thermal";
 
 export interface Collector {
   name: keyof MetricsToggle;
@@ -25,6 +26,7 @@ const collectors: Collector[] = [
   batteryCollector,
   diskIoCollector,
   uptimeCollector,
+  thermalCollector,
 ];
 
 export function registerCollector(collector: Collector): void {
