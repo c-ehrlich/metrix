@@ -38,7 +38,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Create `src/collectors/cpu.ts`. Use `Bun.spawn` with `top -l 1` or similar to get CPU utilization. Return `system.cpu.utilization` gauge.
 
 ### 2.3 Memory Collector
-- [ ] Create `src/collectors/memory.ts`. Parse `vm_stat` output. Return `system.memory.usage`, `system.memory.available`, `system.memory.utilization`.
+- [x] Create `src/collectors/memory.ts`. Parse `vm_stat` output. Return `system.memory.usage`, `system.memory.available`, `system.memory.utilization`.
 
 ### 2.4 Disk Collector
 - [ ] Create `src/collectors/disk.ts`. Parse `df -k` output. Return `system.disk.usage`, `system.disk.available`, `system.disk.utilization` with `device` attribute.
