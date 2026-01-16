@@ -81,7 +81,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 ## Phase 3: Export
 
 ### 3.1 OTLP Payload Builder
-- [ ] Create `src/otlp.ts`. Build OTLP/HTTP JSON payload from `Metric[]`. Follow OTLP JSON schema with resourceMetrics, scopeMetrics, metrics.
+- [x] Create `src/otlp.ts`. Build OTLP/HTTP JSON payload from `Metric[]`. Follow OTLP JSON schema with resourceMetrics, scopeMetrics, metrics.
 
 ### 3.2 Exporter
 - [ ] Create `src/exporter.ts`. Implement `exportMetrics(metrics: Metric[], config: OtlpConfig)` using `fetch()`. Handle errors gracefully. Support dry-run mode (log to stdout).
