@@ -86,6 +86,7 @@ export async function setupCommand(): Promise<void> {
     otlp: {
       endpoint,
       headers,
+      format: "json",
     },
     metrics: { ...defaultConfig.metrics },
   };

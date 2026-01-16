@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "bun run src/index.ts",
     "build": "bun build src/index.ts --compile --outfile dist/metrix",
-    "test": "echo 'No tests yet'",
+    "test": "bun test",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint src",
     "lint:fix": "oxlint --fix src",
@@ -19,5 +19,8 @@
     "oxfmt": "^0.24.0",
     "oxlint": "^1.39.0",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "protobufjs": "^8.0.0"
   }
 }

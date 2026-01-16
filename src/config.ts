@@ -1,9 +1,12 @@
 import { homedir } from "os";
 import { join } from "path";
 
+export type OtlpFormat = "json" | "protobuf";
+
 export interface OtlpConfig {
   endpoint: string;
   headers: Record<string, string>;
+  format: OtlpFormat;
 }
 
 export interface MetricsToggle {
@@ -34,6 +37,7 @@ export const defaultConfig: MetrixConfig = {
   otlp: {
     endpoint: "https://api.axiom.co/v1/metrics",
     headers: {},
+    format: "json",
   },
   metrics: {
     cpu: true,
@@ -105,6 +109,10 @@ export async function loadConfig(configPath?: string): Promise<MetrixConfig> {
       ...defaultConfig.otlp.headers,
       ...parseHeaders(otlp.headers),
     };
+    const format: OtlpFormat =
+      otlp.format === "json" || otlp.format === "protobuf"
+        ? otlp.format
+        : defaultConfig.otlp.format;
 
     const metricsInput = isRecord(parsed.metrics) ? parsed.metrics : {};
     const metrics = { ...defaultConfig.metrics };
@@ -114,7 +122,7 @@ export async function loadConfig(configPath?: string): Promise<MetrixConfig> {
       }
     }
 
-    return { interval, otlp: { endpoint, headers }, metrics };
+    return { interval, otlp: { endpoint, headers, format }, metrics };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.error(`Failed to load config from ${path}: ${message}`);

@@ -110,6 +110,7 @@ function mergeConfig(fileConfig: MetrixConfig, cliArgs: ParsedArgs): MetrixConfi
     otlp: {
       endpoint: cliArgs.endpoint ?? fileConfig.otlp.endpoint,
       headers: { ...fileConfig.otlp.headers, ...cliArgs.headers },
+      format: fileConfig.otlp.format,
     },
     metrics: fileConfig.metrics,
   };
