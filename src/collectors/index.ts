@@ -2,13 +2,14 @@ import type { Metric } from "../types";
 import type { MetricsToggle } from "../config";
 import { cpuCollector } from "./cpu";
 import { memoryCollector } from "./memory";
+import { diskCollector } from "./disk";
 
 export interface Collector {
   name: keyof MetricsToggle;
   collect(): Promise<Metric[]>;
 }
 
-const collectors: Collector[] = [cpuCollector, memoryCollector];
+const collectors: Collector[] = [cpuCollector, memoryCollector, diskCollector];
 
 export function registerCollector(collector: Collector): void {
   collectors.push(collector);
