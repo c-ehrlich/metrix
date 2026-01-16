@@ -3,6 +3,7 @@
 import { parseArgs } from "util";
 import { type MetrixConfig, loadConfig } from "./config";
 import { collectAll } from "./collectors";
+import { setupCommand } from "./commands/setup";
 import { statusCommand } from "./commands/status";
 import { getDeviceInfo } from "./device";
 import { exportMetrics } from "./exporter";
@@ -11,6 +12,7 @@ import { createScheduler, setupGracefulShutdown } from "./scheduler";
 const USAGE = `Usage: metrix [command] [options]
 
 Commands:
+  setup     Interactive configuration wizard
   status    Check if the metrix service is running
 
 Options:
@@ -155,6 +157,11 @@ async function main(): Promise<void> {
 async function run(): Promise<void> {
   const args = Bun.argv.slice(2);
   const command = args[0];
+
+  if (command === "setup") {
+    await setupCommand();
+    return;
+  }
 
   if (command === "status") {
     await statusCommand();

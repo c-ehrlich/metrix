@@ -97,7 +97,7 @@ Each ticket is atomic—typecheck + lint must pass after completion.
 - [x] Add `metrix status` subcommand that checks if the launchd service is running and prints status.
 
 ### 4.2 Setup Command (Interactive)
-- [ ] Add `metrix setup` subcommand that prompts for OTLP endpoint, headers, and interval. Writes config to `~/.config/metrix/config.json`.
+- [x] Add `metrix setup` subcommand that prompts for OTLP endpoint, headers, and interval. Writes config to `~/.config/metrix/config.json`.
 
 ---
 
